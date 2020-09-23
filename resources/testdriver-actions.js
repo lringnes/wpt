@@ -23,6 +23,7 @@
     this.createSource("none");
     this.tickIdx = 0;
     this.defaultTickDuration = defaultTickDuration;
+    this.context = null;
   }
 
   Actions.prototype = {
@@ -54,6 +55,16 @@
     },
 
     /**
+     * Set the context for the actions
+     *
+     * @param {WindowProxy} context - Context in which to run the action sequence
+     *
+     */
+    setContext: function(context) {
+      this.context = context;
+    },
+
+    /**
      * Generate and send the action sequence
      *
      * @returns {Promise} fulfilled after the sequence is executed,
@@ -66,7 +77,7 @@
       } catch(e) {
         return Promise.reject(e);
       }
-      return test_driver.action_sequence(actions);
+      return test_driver.action_sequence(actions, this.context);
     },
 
     /**
